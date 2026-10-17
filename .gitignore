@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+# raw downloads are recreated by `make data`; keep the provenance files
+data/raw/*.csv
+data/processed/pos.duckdb

@@ -1,0 +1,231 @@
+{
+  "coverage": {
+    "first_week": "2020-05-10",
+    "last_week": "2026-03-22",
+    "weeks": 307,
+    "weeks_from_dataset_b": 37,
+    "full_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "yearly": {
+    "2021": {
+      "weeks": 52.0,
+      "value_bn_sar": 472.41953,
+      "txn_bn": 5.166339,
+      "avg_weekly_value_bn_sar": 9.084990961538463,
+      "avg_weekly_txn_mn": 99.35267307692308,
+      "avg_ticket_sar": 91.44183724683958,
+      "value_yoy_pct": null,
+      "txn_yoy_pct": null,
+      "ticket_yoy_pct": null
+    },
+    "2022": {
+      "weeks": 52.0,
+      "value_bn_sar": 557.305939,
+      "txn_bn": 7.238204,
+      "avg_weekly_value_bn_sar": 10.717421903846153,
+      "avg_weekly_txn_mn": 139.1962307692308,
+      "avg_ticket_sar": 76.99505830451864,
+      "value_yoy_pct": 17.96843771467278,
+      "txn_yoy_pct": 40.10315621952025,
+      "ticket_yoy_pct": -15.798872132591868
+    },
+    "2023": {
+      "weeks": 53.0,
+      "value_bn_sar": 623.852171,
+      "txn_bn": 9.12244,
+      "avg_weekly_value_bn_sar": 11.770795679245284,
+      "avg_weekly_txn_mn": 172.12150943396225,
+      "avg_ticket_sar": 68.38654691069495,
+      "value_yoy_pct": 9.828611627401806,
+      "txn_yoy_pct": 23.65385792616559,
+      "ticket_yoy_pct": -11.180602474222013
+    },
+    "2024": {
+      "weeks": 52.0,
+      "value_bn_sar": 664.423112,
+      "txn_bn": 10.322298,
+      "avg_weekly_value_bn_sar": 12.777367538461538,
+      "avg_weekly_txn_mn": 198.50573076923078,
+      "avg_ticket_sar": 64.36775144449425,
+      "value_yoy_pct": 8.55143430100551,
+      "txn_yoy_pct": 15.328834508851052,
+      "ticket_yoy_pct": -5.876587790649513
+    },
+    "2025": {
+      "weeks": 52.0,
+      "value_bn_sar": 705.397338,
+      "txn_bn": 11.524256,
+      "avg_weekly_value_bn_sar": 13.565333423076924,
+      "avg_weekly_txn_mn": 221.62030769230768,
+      "avg_ticket_sar": 61.209794194089405,
+      "value_yoy_pct": 6.166887523924669,
+      "txn_yoy_pct": 11.64428696013231,
+      "ticket_yoy_pct": -4.906117084310491
+    }
+  },
+  "last_full_year": 2025,
+  "first_full_year": 2021,
+  "headline": {
+    "value_bn_sar": 705.397338,
+    "weeks": 52,
+    "avg_weekly_value_bn_sar": 13.565333423076924,
+    "value_yoy_pct": 6.166887523924669,
+    "txn_bn": 11.524256,
+    "txn_yoy_pct": 11.64428696013231,
+    "avg_ticket_sar": 61.209794194089405,
+    "avg_ticket_first_full_year_sar": 91.44183724683958,
+    "avg_ticket_change_pct": -33.0615000343238,
+    "value_growth_first_to_last_pct": 49.315871424705904,
+    "txn_growth_first_to_last_pct": 123.06426272066156
+  },
+  "latest_ytd": {
+    "from": "2026-01-04",
+    "to": "2026-03-22",
+    "weeks": 12,
+    "value_bn_sar": 176.656252,
+    "value_yoy_pct": 3.4166825513323396,
+    "txn_yoy_pct": 9.346457646515361
+  },
+  "peak_week": {
+    "week_start": "2025-03-23",
+    "value_bn_sar": 20.098053
+  },
+  "sectors_2024": {
+    "top3": [
+      {
+        "sector_name": "Other",
+        "share_2024_pct": 16.330119396855594
+      },
+      {
+        "sector_name": "Beverage and Food",
+        "share_2024_pct": 15.292006046105174
+      },
+      {
+        "sector_name": "Restaurants & Caf\u00e9",
+        "share_2024_pct": 14.447151325677325
+      }
+    ],
+    "top_named": [
+      {
+        "sector_name": "Beverage and Food",
+        "share_2024_pct": 15.292006046105174,
+        "avg_ticket_sar_2024": 41.39198482565266
+      },
+      {
+        "sector_name": "Restaurants & Caf\u00e9",
+        "share_2024_pct": 14.447151325677325,
+        "avg_ticket_sar_2024": 32.91127586712912
+      }
+    ],
+    "top3_share_pct": 46.06927676863809,
+    "fastest_cagr": [
+      {
+        "sector_name": "Miscellaneous Goods and Services",
+        "cagr_2021_2024_pct": 23.030402117721316
+      },
+      {
+        "sector_name": "Hotels",
+        "cagr_2021_2024_pct": 19.413955818428708
+      },
+      {
+        "sector_name": "Other",
+        "cagr_2021_2024_pct": 18.65722695229861
+      }
+    ],
+    "slowest_cagr": [
+      {
+        "sector_name": "Electronic & Electric Devices",
+        "cagr_2021_2024_pct": -8.599576861423873
+      },
+      {
+        "sector_name": "Furniture",
+        "cagr_2021_2024_pct": -2.8914367117407025
+      }
+    ]
+  },
+  "cities": {
+    "riyadh_share_first": 31.007144433677414,
+    "riyadh_share_last": 34.62489959098768,
+    "jeddah_share_first": 16.066170888405058,
+    "jeddah_share_last": 13.978651986350423,
+    "makkah_share_last": 4.207149134435776,
+    "madinah_share_last": 3.9967840082776154,
+    "jeddah_value_bn_sar_last": 98.605039,
+    "named_cities_share_last": 71.73763788714497,
+    "jeddah_value_growth_pct": 29.914876244156318,
+    "riyadh_value_growth_pct": 66.73728425652735,
+    "makkah_value_growth_pct": 86.99973579311435,
+    "madinah_value_growth_pct": 60.89453344981406,
+    "national_value_growth_pct": 49.315871424705904
+  },
+  "ramadan": {
+    "years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "peak_index_min": 103.93623242885755,
+    "peak_index_max": 144.60329764151837,
+    "peak_index_median": 116.26731041299578,
+    "post_eid_index_min": 72.91584350232552,
+    "post_eid_index_max": 88.53142672563071,
+    "peak_weeks": [
+      "2021-05-02",
+      "2022-04-24",
+      "2023-04-09",
+      "2024-03-31",
+      "2025-03-23",
+      "2026-03-08"
+    ],
+    "ramadan_avg_index_min": 94.56418645538669,
+    "ramadan_avg_index_max": 110.25437788422938,
+    "top_sector_lift": [
+      {
+        "sector_name": "Clothing and Footwear",
+        "years": 5,
+        "first_year": 2021,
+        "last_year": 2025,
+        "peak_index_avg": 270.67711958947626
+      },
+      {
+        "sector_name": "Jewelry",
+        "years": 5,
+        "first_year": 2021,
+        "last_year": 2025,
+        "peak_index_avg": 266.42545687344676
+      },
+      {
+        "sector_name": "Telecommunication",
+        "years": 5,
+        "first_year": 2021,
+        "last_year": 2025,
+        "peak_index_avg": 142.87322003738748
+      }
+    ],
+    "bottom_sector_lift": [
+      {
+        "sector_name": "Gas Stations",
+        "years": 5,
+        "first_year": 2021,
+        "last_year": 2025,
+        "peak_index_avg": 103.43125406362863
+      },
+      {
+        "sector_name": "Construction & Building Materials",
+        "years": 5,
+        "first_year": 2021,
+        "last_year": 2025,
+        "peak_index_avg": 91.75061971762064
+      }
+    ]
+  }
+}
