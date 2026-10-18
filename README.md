@@ -149,5 +149,5 @@ The full pipeline runs in a few seconds after the download. SAMA updates the ser
 
 ## Author
 
-Mohammad Amir Khan, Jeddah · [LinkedIn](https://linkedin.com/in/amirator) · [GitHub](https://github.com/amirator)
+Mohammad Amir Khan, Jeddah · [LinkedIn](https://www.linkedin.com/in/ameer-k-a31363235/) · [GitHub](https://github.com/amirator)
 Independent portfolio project built on public data. It is not affiliated with SAMA or KAPSARC.
