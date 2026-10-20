@@ -112,7 +112,7 @@ The full pipeline runs in a few seconds after the download. SAMA updates the ser
 
 ## 7. Tests and validation
 
-`tests/test_data_quality.py` (22 checks) covers:
+`tests/test_data_quality.py` (23 checks) covers:
 - raw files match the SHA-256 in the manifest, and every SAMA indicator is mapped;
 - there are no duplicate keys, every week starts on a Sunday, and the weekly series has no gaps;
 - all values are positive and not null, and foreign keys resolve;
