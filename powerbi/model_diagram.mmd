@@ -1,0 +1,46 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "DejaVu Sans, Arial", "fontSize": "16px", "primaryColor": "#E8EEF6", "primaryTextColor": "#1F2A44", "primaryBorderColor": "#1F2A44", "lineColor": "#1F2A44", "secondaryColor": "#F7F3EA", "tertiaryColor": "#FFFFFF"}}}%%
+erDiagram
+    dim_date ||--o{ fact_national_weekly : "week_start"
+    dim_date ||--o{ fact_city_weekly : "week_start"
+    dim_date ||--o{ fact_sector_weekly : "week_start"
+    dim_city ||--o{ fact_city_weekly : "city_key"
+    dim_sector ||--o{ fact_sector_weekly : "sector_key"
+
+    dim_date {
+        date week_start PK
+        date week_end
+        int year
+        int hijri_year
+        int hijri_month
+        bool is_ramadan_week
+        bool is_eid_fitr_week
+        bool is_eid_adha_week
+    }
+    dim_city {
+        int city_key PK
+        string city_name
+        string admin_region
+    }
+    dim_sector {
+        int sector_key PK
+        string sector_name
+    }
+    fact_national_weekly {
+        date week_start FK
+        string source
+        double txn_count_k
+        double txn_value_k_sar
+    }
+    fact_city_weekly {
+        date week_start FK
+        int city_key FK
+        string source
+        double txn_count_k
+        double txn_value_k_sar
+    }
+    fact_sector_weekly {
+        date week_start FK
+        int sector_key FK
+        double txn_count_k
+        double txn_value_k_sar
+    }

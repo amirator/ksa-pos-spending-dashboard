@@ -95,7 +95,7 @@ erDiagram
 
 ## 5. Tools
 
-Python 3.13 · pandas · **DuckDB (SQL)** · hijridate (Umm al-Qura calendar) · matplotlib (static dashboard, PNG/PDF) · Plotly (interactive HTML) · pytest · Make. Exact versions are pinned in [`requirements.txt`](requirements.txt).
+Python 3.13 · pandas · **DuckDB (SQL)** · hijridate (Umm al-Qura calendar) · matplotlib (static dashboard, PNG/PDF) · Plotly (interactive HTML) · pytest · Make · GitHub Actions. Power Query M and DAX are shipped as text so the same model can be rebuilt in Power BI Desktop. Exact versions are pinned in [`requirements.txt`](requirements.txt).
 
 ## 6. Reproduce
 
@@ -112,7 +112,7 @@ The full pipeline runs in a few seconds after the download. SAMA updates the ser
 
 ## 7. Tests and validation
 
-`tests/test_data_quality.py` (23 checks) covers:
+`tests/test_data_quality.py` and `tests/test_powerbi_pack.py` cover:
 - raw files match the SHA-256 in the manifest, and every SAMA indicator is mapped;
 - there are no duplicate keys, every week starts on a Sunday, and the weekly series has no gaps;
 - all values are positive and not null, and foreign keys resolve;
@@ -122,7 +122,22 @@ The full pipeline runs in a few seconds after the download. SAMA updates the ser
 
 ## 8. Power BI
 
-`data/processed/` contains the dimension and fact tables as CSV. [`powerbi/DAX_measures.md`](powerbi/DAX_measures.md) lists the relationships and draft DAX measures that mirror the SQL KPIs, so the model can be rebuilt in Power BI Desktop. The static dashboard is laid out like a Power BI report: KPI cards across the top, the trend next, and the breakdowns below.
+A `.pbix` is not in this repository: Power BI Desktop runs only on Windows and was not run here. The PNG, PDF and HTML dashboards in `reports/` are Python renders of the same star schema, not Power BI screenshots.
+
+The [`powerbi/`](powerbi/) folder is a complete Power BI-ready pack so the model can be rebuilt in Desktop:
+
+| File | What it is |
+|---|---|
+| `data/processed/dim_*.csv`, `fact_*.csv` | Star-schema model CSVs |
+| [`powerbi/queries/*.m`](powerbi/queries/) | Power Query M for each table (types, UTF-8), with a `FolderPath` parameter |
+| [`powerbi/measures.dax`](powerbi/measures.dax) | 28 DAX measures: levels, week-on-week, vs 4-week average, vs 52 weeks ago, YoY, YTD variance, city and sector share and rank, Ramadan and Eid |
+| [`powerbi/incremental_refresh.md`](powerbi/incremental_refresh.md) | When incremental refresh is worth using, and the 13-month lookback YoY measures need |
+| [`powerbi/model_diagram.png`](powerbi/model_diagram.png) | Star-schema relationship diagram |
+| [`powerbi/README.md`](powerbi/README.md) | Desktop walk-through |
+
+The DAX mirrors `sql/03_kpis.sql` and has not been executed in Power BI Desktop. A `.pbix` will be added if it is built on a Windows machine.
+
+![Star-schema model](powerbi/model_diagram.png)
 
 ## 9. Project structure
 
@@ -136,7 +151,8 @@ The full pipeline runs in a few seconds after the download. SAMA updates the ser
 ├── data/raw/               SOURCES.md, manifest.json (CSV files git-ignored)
 ├── data/processed/         star schema CSVs, KPI tables, kpis.json
 ├── reports/                dashboard.png/.html, dashboard_and_summary.pdf, executive_summary.md, figures/
-├── powerbi/                DAX measures and model notes
+├── powerbi/                Power Query M, DAX, model diagram, incremental-refresh notes
+├── .github/workflows/     CI (pytest on committed outputs; full publisher checks after `run.py`)
 └── docs/screenshots/
 ```
 

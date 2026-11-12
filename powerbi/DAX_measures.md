@@ -1,33 +1,23 @@
 # Rebuilding the model in Power BI Desktop
 
-1. **Get Data > Text/CSV** and load every file in `data/processed/` whose name starts with `dim_` or `fact_`.
-2. **Model view** relationships (single direction, many-to-one):
-   - `fact_national_weekly[week_start]` → `dim_date[week_start]`
-   - `fact_city_weekly[week_start]` → `dim_date[week_start]`; `fact_city_weekly[city_key]` → `dim_city[city_key]`
-   - `fact_sector_weekly[week_start]` → `dim_date[week_start]`; `fact_sector_weekly[sector_key]` → `dim_sector[sector_key]`
-3. Mark `dim_date` as the date table (column `week_start`).
-4. Add the measures below to a `_Measures` table.
+A `.pbix` is not included: Power BI Desktop runs only on Windows, and it was not run for this repository. The dashboard PNGs and PDF in `reports/` are Python renders of the same star schema, not Power BI screenshots.
 
-```DAX
-POS Value (SAR bn)      = DIVIDE ( SUM ( fact_national_weekly[txn_value_k_sar] ), 1e6 )
-Transactions (mn)       = DIVIDE ( SUM ( fact_national_weekly[txn_count_k] ), 1e3 )
-Avg Ticket (SAR)        = DIVIDE ( SUM ( fact_national_weekly[txn_value_k_sar] ), SUM ( fact_national_weekly[txn_count_k] ) )
-Weeks                   = DISTINCTCOUNT ( fact_national_weekly[week_start] )
-Avg Weekly Value (SAR bn) = DIVIDE ( [POS Value (SAR bn)], [Weeks] )
+**Full pack:** see [`README.md`](README.md) in this folder. Paste [`queries/*.m`](queries/) into Advanced Editor (after creating the `FolderPath` parameter in [`parameters.m`](parameters.m)), set the relationships below, mark `dim_date` as the date table, and add the measures in [`measures.dax`](measures.dax) to a `_Measures` table. Incremental-refresh notes are in [`incremental_refresh.md`](incremental_refresh.md).
 
-Avg Weekly Value PY =
-VAR y = SELECTEDVALUE ( dim_date[year] )
-RETURN CALCULATE ( [Avg Weekly Value (SAR bn)], REMOVEFILTERS ( dim_date ), dim_date[year] = y - 1 )
+## Relationships (single direction, many-to-one)
 
-YoY % (avg weekly)      = DIVIDE ( [Avg Weekly Value (SAR bn)] - [Avg Weekly Value PY], [Avg Weekly Value PY] )
+- `fact_national_weekly[week_start]` → `dim_date[week_start]`
+- `fact_city_weekly[week_start]` → `dim_date[week_start]`; `fact_city_weekly[city_key]` → `dim_city[city_key]`
+- `fact_sector_weekly[week_start]` → `dim_date[week_start]`; `fact_sector_weekly[sector_key]` → `dim_sector[sector_key]`
 
-City Value (SAR bn)     = DIVIDE ( SUM ( fact_city_weekly[txn_value_k_sar] ), 1e6 )
-City Share %            = DIVIDE ( [City Value (SAR bn)], [POS Value (SAR bn)] )
+## Measure groups in `measures.dax`
 
-Sector Value (SAR bn)   = DIVIDE ( SUM ( fact_sector_weekly[txn_value_k_sar] ), 1e6 )
-Sector Share %          = DIVIDE ( [Sector Value (SAR bn)], CALCULATE ( [Sector Value (SAR bn)], ALL ( dim_sector ) ) )
+1. National levels: POS value, transactions, average ticket, week count, average weekly value.
+2. Period variance: week-on-week, vs 4-week average, vs 52 weeks ago (level and %), year-on-year on average weekly value (fairer when a year has 53 weeks).
+3. Year-to-date: YTD, prior-year YTD, YTD YoY %.
+4. City and sector: value, share, rank, city vs 52 weeks ago.
+5. Seasonality: Ramadan, Eid al-Fitr and Eid al-Adha week values, using Hijri flags on `dim_date`.
 
-Ramadan Week Value (SAR bn) = CALCULATE ( [POS Value (SAR bn)], dim_date[is_ramadan_week] = TRUE () )
-```
+Suggested pages: (1) Overview with KPI cards, weekly trend and variance vs 52 weeks ago; (2) Sectors; (3) Cities; (4) Seasonality, using `dim_date` Hijri flags as slicers.
 
-Suggested pages: (1) Overview with KPI cards and a weekly trend; (2) Sectors; (3) Cities; (4) Seasonality, using `dim_date` Hijri flags as slicers. These measures mirror the logic in `sql/03_kpis.sql`. They are drafts and have not been tested in Power BI Desktop yet. A `.pbix` file is not included because Power BI Desktop runs only on Windows.
+The measures mirror `sql/03_kpis.sql`. They are drafts and have not been tested in Power BI Desktop yet.

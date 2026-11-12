@@ -1,0 +1,161 @@
+// _Measures table — paste each block as a measure in Power BI Desktop.
+// These mirror sql/03_kpis.sql. They have been written to match the SQL
+// definitions; they have not been executed in Power BI Desktop (no .pbix
+// is in this repo — Power BI Desktop runs on Windows only).
+//
+// Units in the fact tables: txn_value_k_sar is SAR thousands,
+// txn_count_k is transaction counts in thousands.
+// Mark dim_date[week_start] as the date table.
+
+// ========== National levels ==========
+
+POS Value (SAR bn) =
+DIVIDE ( SUM ( fact_national_weekly[txn_value_k_sar] ), 1000000 )
+
+Transactions (mn) =
+DIVIDE ( SUM ( fact_national_weekly[txn_count_k] ), 1000 )
+
+Avg Ticket (SAR) =
+DIVIDE (
+    SUM ( fact_national_weekly[txn_value_k_sar] ),
+    SUM ( fact_national_weekly[txn_count_k] )
+)
+
+Weeks =
+DISTINCTCOUNT ( fact_national_weekly[week_start] )
+
+Avg Weekly Value (SAR bn) =
+DIVIDE ( [POS Value (SAR bn)], [Weeks] )
+
+// ========== Period variance (prior week, 4-week, 52-week, YoY) ==========
+
+POS Value PY week (SAR bn) =
+CALCULATE (
+    [POS Value (SAR bn)],
+    DATEADD ( dim_date[week_start], -7, DAY )
+)
+
+WoW % =
+DIVIDE (
+    [POS Value (SAR bn)] - [POS Value PY week (SAR bn)],
+    [POS Value PY week (SAR bn)]
+)
+
+POS Value 4wk avg (SAR bn) =
+CALCULATE (
+    [Avg Weekly Value (SAR bn)],
+    DATESINPERIOD ( dim_date[week_start], MAX ( dim_date[week_start] ), -28, DAY )
+)
+
+vs 4-week avg % =
+DIVIDE (
+    [POS Value (SAR bn)] - [POS Value 4wk avg (SAR bn)],
+    [POS Value 4wk avg (SAR bn)]
+)
+
+POS Value 52wk ago (SAR bn) =
+CALCULATE (
+    [POS Value (SAR bn)],
+    DATEADD ( dim_date[week_start], -364, DAY )
+)
+
+vs 52 weeks ago % =
+DIVIDE (
+    [POS Value (SAR bn)] - [POS Value 52wk ago (SAR bn)],
+    [POS Value 52wk ago (SAR bn)]
+)
+
+vs 52 weeks ago (SAR bn) =
+[POS Value (SAR bn)] - [POS Value 52wk ago (SAR bn)]
+
+Avg Weekly Value PY =
+VAR y = SELECTEDVALUE ( dim_date[year] )
+RETURN
+    CALCULATE (
+        [Avg Weekly Value (SAR bn)],
+        REMOVEFILTERS ( dim_date ),
+        dim_date[year] = y - 1
+    )
+
+YoY % (avg weekly) =
+DIVIDE (
+    [Avg Weekly Value (SAR bn)] - [Avg Weekly Value PY],
+    [Avg Weekly Value PY]
+)
+
+// ========== Year-to-date variance ==========
+
+POS Value YTD (SAR bn) =
+TOTALYTD ( [POS Value (SAR bn)], dim_date[week_start] )
+
+POS Value PYTD (SAR bn) =
+CALCULATE (
+    [POS Value YTD (SAR bn)],
+    DATEADD ( dim_date[week_start], -1, YEAR )
+)
+
+YTD YoY % =
+DIVIDE (
+    [POS Value YTD (SAR bn)] - [POS Value PYTD (SAR bn)],
+    [POS Value PYTD (SAR bn)]
+)
+
+// ========== City ==========
+
+City Value (SAR bn) =
+DIVIDE ( SUM ( fact_city_weekly[txn_value_k_sar] ), 1000000 )
+
+City Share % =
+DIVIDE ( [City Value (SAR bn)], [POS Value (SAR bn)] )
+
+City Value 52wk ago (SAR bn) =
+CALCULATE (
+    [City Value (SAR bn)],
+    DATEADD ( dim_date[week_start], -364, DAY )
+)
+
+City vs 52 weeks ago % =
+DIVIDE (
+    [City Value (SAR bn)] - [City Value 52wk ago (SAR bn)],
+    [City Value 52wk ago (SAR bn)]
+)
+
+City Rank =
+RANKX (
+    ALL ( dim_city[city_name] ),
+    [City Value (SAR bn)],
+    ,
+    DESC,
+    DENSE
+)
+
+// ========== Sector ==========
+
+Sector Value (SAR bn) =
+DIVIDE ( SUM ( fact_sector_weekly[txn_value_k_sar] ), 1000000 )
+
+Sector Share % =
+DIVIDE (
+    [Sector Value (SAR bn)],
+    CALCULATE ( [Sector Value (SAR bn)], ALL ( dim_sector ) )
+)
+
+Sector Rank =
+RANKX (
+    ALL ( dim_sector[sector_name] ),
+    [Sector Value (SAR bn)],
+    ,
+    DESC,
+    DENSE
+)
+
+// ========== Seasonality (Hijri flags on dim_date) ==========
+
+Ramadan Week Value (SAR bn) =
+CALCULATE ( [POS Value (SAR bn)], dim_date[is_ramadan_week] = TRUE () )
+
+Eid al-Fitr Week Value (SAR bn) =
+CALCULATE ( [POS Value (SAR bn)], dim_date[is_eid_fitr_week] = TRUE () )
+
+Eid al-Adha Week Value (SAR bn) =
+CALCULATE ( [POS Value (SAR bn)], dim_date[is_eid_adha_week] = TRUE () )

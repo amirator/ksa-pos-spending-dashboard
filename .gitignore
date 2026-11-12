@@ -5,3 +5,4 @@ __pycache__/
 # raw downloads are recreated by `make data`; keep the provenance files
 data/raw/*.csv
 data/processed/pos.duckdb
+powerbi/puppeteer.json
